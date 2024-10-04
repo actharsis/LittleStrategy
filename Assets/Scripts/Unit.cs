@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
-        UnitSelectionManager.Instance.allUnitsList.Add(gameObject);
+        UnitSelectionManager.Instance.AllUnitsList.Add(gameObject);
     }
 
     private void OnDestroy()
     {
-        UnitSelectionManager.Instance.allUnitsList.Remove(gameObject);
+        UnitSelectionManager.Instance.AllUnitsList.Remove(gameObject);
     }
 }

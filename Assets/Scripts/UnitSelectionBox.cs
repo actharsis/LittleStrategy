@@ -94,7 +94,7 @@ public class UnitSelectionBox : MonoBehaviour
 
     private void SelectUnits()
     {
-        foreach (var unit in UnitSelectionManager.Instance.allUnitsList.Where(unit => 
+        foreach (var unit in UnitSelectionManager.Instance.AllUnitsList.Where(unit =>
                      selectionBox.Contains(myCam.WorldToScreenPoint(unit.transform.position))))
         {
             UnitSelectionManager.Instance.DragSelect(unit);

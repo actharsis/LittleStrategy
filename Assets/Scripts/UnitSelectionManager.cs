@@ -1,18 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class UnitSelectionManager : MonoBehaviour
 {
     public static UnitSelectionManager Instance { get; set; }
 
-    public List<GameObject> allUnitsList = new List<GameObject>();
-    public List<GameObject> unitsSelected = new List<GameObject>();
+    public List<GameObject> AllUnitsList = new List<GameObject>();
+    public List<GameObject> UnitsSelected = new List<GameObject>();
 
-    public LayerMask clickable;
-    public LayerMask ground;
-    public GameObject groundMarker;
+    public LayerMask Clickable;
+    public LayerMask Ground;
+
+    public LayerMask Attackable;
+    public bool AttackCursorVisible;
+
+    public GameObject GroundMarker;
 
     private Camera _cam;
 
@@ -35,67 +42,101 @@ public class UnitSelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            var ray = _cam.ScreenPointToRay(Input.mousePosition);
+        HandleClickSelection();
+        HandleMoveCommand();
+        HandleAttackCommand();
+    }
 
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, clickable))
+    private void HandleClickSelection()
+    {
+        if (!Input.GetMouseButtonDown(0)) return;
+        var ray = _cam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out var hit, Mathf.Infinity, Clickable))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    MultiSelect(hit.collider.gameObject);
-                }
-                else
-                {
-                    SelectByClicking(hit.collider.gameObject);
-                }
+                MultiSelect(hit.collider.gameObject);
             }
             else
             {
-                if (!Input.GetKey(KeyCode.LeftShift)) // is it really needed?
-                {
-                    DeselectAll();
-                }
+                SelectByClicking(hit.collider.gameObject);
             }
         }
-
-        if (Input.GetMouseButtonDown(1) && unitsSelected.Count > 0)
+        else
         {
-            var ray = _cam.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, ground))
+            if (!Input.GetKey(KeyCode.LeftShift)) // is it really needed?
             {
-                groundMarker.transform.position = hit.point;
-
-                groundMarker.SetActive(false);
-                groundMarker.SetActive(true);
+                DeselectAll();
             }
         }
     }
 
+    private void HandleMoveCommand()
+    {
+        if (!Input.GetMouseButtonDown(1) || UnitsSelected.Count <= 0) return;
+        var ray = _cam.ScreenPointToRay(Input.mousePosition);
+
+        if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, Ground)) return;
+        GroundMarker.transform.position = hit.point;
+
+        GroundMarker.SetActive(false);
+        GroundMarker.SetActive(true);
+    }
+
+    private void HandleAttackCommand()
+    {
+        if (UnitsSelected.Count <= 0 || !IsOffensiveUnitIn(UnitsSelected)) return;
+        {
+            var ray = _cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, Attackable))
+            {
+                AttackCursorVisible = true;
+
+                if (!Input.GetMouseButtonDown(1)) return;
+                var target = hit.transform;
+
+                foreach (var unit in UnitsSelected.Where(unit => unit.GetComponent<AttackController>()))
+                {
+                    unit.GetComponent<AttackController>().TargetToAttack = target;
+                }
+            }
+            else
+            {
+                AttackCursorVisible = false;
+            }
+        }
+    }
+
+    private bool IsOffensiveUnitIn(List<GameObject> gameObjects)
+    {
+        return UnitsSelected.Any(unit => unit.GetComponent<AttackController>());
+    }
+
     private void MultiSelect(GameObject unit)
     {
-        if (!unitsSelected.Contains(unit))
+        if (!UnitsSelected.Contains(unit))
         {
-            unitsSelected.Add(unit);
+            UnitsSelected.Add(unit);
             SelectUnit(unit, true);
         }
         else
         {
             SelectUnit(unit, false);
-            unitsSelected.Remove(unit);
+            UnitsSelected.Remove(unit);
         }
     }
 
     public void DeselectAll()
     {
-        foreach (var unit in unitsSelected)
+        foreach (var unit in UnitsSelected)
         {
             SelectUnit(unit, false);
         }
 
-        groundMarker.SetActive(false);
-        unitsSelected.Clear();
+        GroundMarker.SetActive(false);
+        UnitsSelected.Clear();
     }
 
     private static void SetMovementAbility(GameObject unit, bool isAbleMoving)
@@ -110,8 +151,8 @@ public class UnitSelectionManager : MonoBehaviour
 
     internal void DragSelect(GameObject unit)
     {
-        if (unitsSelected.Contains(unit)) return;
-        unitsSelected.Add(unit);
+        if (UnitsSelected.Contains(unit)) return;
+        UnitsSelected.Add(unit);
         SelectUnit(unit, true);
     }
 
@@ -119,7 +160,7 @@ public class UnitSelectionManager : MonoBehaviour
     {
         DeselectAll();
 
-        unitsSelected.Add(unit);
+        UnitsSelected.Add(unit);
 
         SelectUnit(unit, true);
     }
