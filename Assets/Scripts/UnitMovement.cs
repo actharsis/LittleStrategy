@@ -20,13 +20,15 @@ public class UnitMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(1)) return;
-        var ray = _cam.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out var hit, Mathf.Infinity, ground))
+        if (Input.GetMouseButtonDown(1))
         {
-            IsCommandedToMove = true;
-            _agent.SetDestination(hit.point);
+            var ray = _cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, ground))
+            {
+                IsCommandedToMove = true;
+                _agent.SetDestination(hit.point);
+            }
         }
 
         if (!_agent.hasPath || _agent.remainingDistance <= _agent.stoppingDistance)

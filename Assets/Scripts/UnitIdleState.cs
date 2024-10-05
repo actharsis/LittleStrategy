@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class UnitIdleState : StateMachineBehaviour
 {
-    private AttackController attackController;
+    private AttackController _attackController;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        attackController = animator.transform.GetComponent<AttackController>();
+        _attackController = animator.transform.GetComponent<AttackController>();
+
+        _attackController.SetIdleMaterial();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (attackController.TargetToAttack != null)
+        if (_attackController.TargetToAttack != null)
         {
             animator.SetBool("isFollowing", true);
         }
