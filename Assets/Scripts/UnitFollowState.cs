@@ -26,7 +26,6 @@ public class UnitFollowState : StateMachineBehaviour
         }
         else
         {
-            Debug.Log(animator.transform.GetComponent<UnitMovement>().IsCommandedToMove);
             if (animator.transform.GetComponent<UnitMovement>().IsCommandedToMove) return;
             _unitAgent.SetDestination(_attackController.TargetToAttack.position);
             animator.transform.LookAt(_attackController.TargetToAttack);

@@ -11,6 +11,9 @@ public class UnitAttackState : StateMachineBehaviour
 
     public float StopAttackingDistance = 1.2f;
 
+    public float attackRate = 2f;
+    private float attackTimer;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _unitAgent = animator.GetComponent<NavMeshAgent>();
@@ -31,8 +34,15 @@ public class UnitAttackState : StateMachineBehaviour
         LookAtTarget();
         _unitAgent.SetDestination(_attackController.TargetToAttack.position);
 
-        //var damageToInflict = _attackController.UnitDamage;
-        //_attackController.TargetToAttack.GetComponent<Enemy>().ReceiveDamage(damageToInflict);
+        if (attackTimer <= 0)
+        {
+            Attack();
+            attackTimer = 1f / attackRate;
+        }
+        else
+        {
+            attackTimer -= Time.deltaTime;
+        }
 
         var distanceFromTarget =
             Vector3.Distance(_attackController.TargetToAttack.position, animator.transform.position);
@@ -40,6 +50,12 @@ public class UnitAttackState : StateMachineBehaviour
         {
             animator.SetBool("isAttacking", false);
         }
+    }
+
+    private void Attack()
+    {
+        var damageToInflict = _attackController.UnitDamage;
+        _attackController.TargetToAttack.GetComponent<Unit>().TakeDamage(damageToInflict);
     }
 
     private void LookAtTarget()
