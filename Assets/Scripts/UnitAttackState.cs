@@ -20,6 +20,7 @@ public class UnitAttackState : StateMachineBehaviour
         _attackController = animator.GetComponent<AttackController>();
 
         _attackController.SetAttackMaterial();
+        _attackController.MuzzleEffect.gameObject.SetActive(true);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,7 +33,9 @@ public class UnitAttackState : StateMachineBehaviour
         }
 
         LookAtTarget();
-        _unitAgent.SetDestination(_attackController.TargetToAttack.position);
+
+        //move while attacking
+        //_unitAgent.SetDestination(_attackController.TargetToAttack.position);
 
         if (attackTimer <= 0)
         {
@@ -69,6 +72,6 @@ public class UnitAttackState : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        _attackController.MuzzleEffect.gameObject.SetActive(false);
     }
 }

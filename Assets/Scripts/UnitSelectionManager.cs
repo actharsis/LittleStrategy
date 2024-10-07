@@ -146,7 +146,7 @@ public class UnitSelectionManager : MonoBehaviour
 
     private static void SetStateSelectionIndicator(GameObject unit, bool isActive)
     {
-        unit.transform.GetChild(0).gameObject.SetActive(isActive);
+        unit.transform.Find("SelectionIndicator").gameObject.SetActive(isActive);
     }
 
     internal void DragSelect(GameObject unit)

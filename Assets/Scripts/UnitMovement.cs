@@ -12,10 +12,13 @@ public class UnitMovement : MonoBehaviour
 
     public bool IsCommandedToMove;
 
+    Animator animator;
+
     private void Start()
     {
         _cam = Camera.main;
         _agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -28,12 +31,18 @@ public class UnitMovement : MonoBehaviour
             {
                 IsCommandedToMove = true;
                 _agent.SetDestination(hit.point);
+                animator.SetBool("isMoving", true);
             }
         }
 
         if (!_agent.hasPath || _agent.remainingDistance <= _agent.stoppingDistance)
         {
             IsCommandedToMove = false;
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            animator.SetBool("isMoving", true);
         }
     }
 }

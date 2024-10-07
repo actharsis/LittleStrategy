@@ -11,13 +11,23 @@ public class AttackController : MonoBehaviour
     public Material FollowStateMaterial;
     public Material AttackStateMaterial;
 
-    public bool isPlayer;
+    public bool IsPlayer;
 
     public float UnitDamage;
 
+    public GameObject MuzzleEffect;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (isPlayer && other.CompareTag("Enemy") && TargetToAttack == null)
+        if (IsPlayer && other.CompareTag("Enemy") && TargetToAttack == null)
+        {
+            TargetToAttack = other.transform;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (IsPlayer && other.CompareTag("Enemy") && TargetToAttack == null)
         {
             TargetToAttack = other.transform;
         }
@@ -25,7 +35,7 @@ public class AttackController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (isPlayer && other.CompareTag("Enemy") && TargetToAttack != null)
+        if (IsPlayer && other.CompareTag("Enemy") && TargetToAttack != null)
         {
             TargetToAttack = null;
         }
@@ -33,15 +43,15 @@ public class AttackController : MonoBehaviour
 
     public void SetIdleMaterial()
     {
-        GetComponent<Renderer>().material = IdleStateMaterial;
+        //GetComponent<Renderer>().material = IdleStateMaterial;
     }
     public void SetFollowMaterial()
     {
-        GetComponent<Renderer>().material = FollowStateMaterial;
+        //GetComponent<Renderer>().material = FollowStateMaterial;
     }
     public void SetAttackMaterial()
     {
-        GetComponent<Renderer>().material = AttackStateMaterial;
+        //GetComponent<Renderer>().material = AttackStateMaterial;
     }
 
     private void OnDrawGizmos()
