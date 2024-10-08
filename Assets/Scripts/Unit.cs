@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 
 public class Unit : MonoBehaviour
 {
@@ -10,8 +12,14 @@ public class Unit : MonoBehaviour
 
     public HealthTracker HealthTracker;
 
+    private Animator _animator;
+    private NavMeshAgent _agent;
+
     private void Start()
     {
+        _agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+
         UnitSelectionManager.Instance.AllUnitsList.Add(gameObject);
 
         _unitHealth = UnitMaxHealth;
@@ -42,5 +50,10 @@ public class Unit : MonoBehaviour
     {
         _unitHealth -= damageToInflict;
         UpdateHealthUI();
+    }
+
+    public void Update()
+    {
+        _animator.SetBool("isMoving", _agent.remainingDistance > _agent.stoppingDistance);
     }
 }
