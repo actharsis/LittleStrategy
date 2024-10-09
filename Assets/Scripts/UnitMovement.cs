@@ -8,14 +8,16 @@ public class UnitMovement : MonoBehaviour
 {
     private Camera _cam;
     private NavMeshAgent _agent;
-    public LayerMask ground;
+    public LayerMask Ground;
 
     public bool IsCommandedToMove;
+    private DirectionIndicator _directionIndicator;
 
     private void Start()
     {
         _cam = Camera.main;
         _agent = GetComponent<NavMeshAgent>();
+        _directionIndicator = GetComponent<DirectionIndicator>();
     }
 
     private void Update()
@@ -24,10 +26,12 @@ public class UnitMovement : MonoBehaviour
         {
             var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, ground))
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, Ground))
             {
                 IsCommandedToMove = true;
                 _agent.SetDestination(hit.point);
+
+                _directionIndicator.DrawLine(hit);
             }
         }
 

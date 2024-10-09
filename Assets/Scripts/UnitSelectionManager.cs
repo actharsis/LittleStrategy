@@ -45,6 +45,32 @@ public class UnitSelectionManager : MonoBehaviour
         HandleClickSelection();
         HandleMoveCommand();
         HandleAttackCommand();
+
+        CursorSelector();
+    }
+
+    private void CursorSelector()
+    {
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out _, Mathf.Infinity, Clickable))
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.Selectable);
+        }
+        else if (Physics.Raycast(ray, out _, Mathf.Infinity, Attackable)
+                 && UnitsSelected.Count > 0 && IsOffensiveUnitIn(UnitsSelected))
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.Attackable);
+        }
+        else if (Physics.Raycast(ray, out _, Mathf.Infinity, Ground)
+                 && UnitsSelected.Count > 0)
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.Walkable);
+        }
+        else
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.None);
+        }
     }
 
     private void HandleClickSelection()

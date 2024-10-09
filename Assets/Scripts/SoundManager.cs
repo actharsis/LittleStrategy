@@ -29,7 +29,8 @@ public class SoundManager : MonoBehaviour
     {
         if (!_infantryAttackChannel.isPlaying)
         {
-            _infantryAttackChannel.PlayOneShot(InfantryAttackClip);
+            //currently disabled
+            //_infantryAttackChannel.PlayOneShot(InfantryAttackClip);
         }
     }
 }
