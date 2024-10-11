@@ -5,12 +5,12 @@ using UnityEngine;
 public class FaceCamera : MonoBehaviour
 {
     private Transform localTrans;
-
-    public Camera facingCamera;
+    private Camera facingCamera;
 
     private void Start()
     {
         localTrans = GetComponent<Transform>();
+        facingCamera = Camera.main;
     }
 
     private void Update()

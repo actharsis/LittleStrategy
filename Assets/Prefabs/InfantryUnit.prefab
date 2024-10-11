@@ -5856,7 +5856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e98b56101455c46be3db882dcc1779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground:
+  Ground:
     serializedVersion: 2
     m_Bits: 64
   IsCommandedToMove: 0
@@ -5998,7 +5998,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.09745777
+        value: 0.10169971
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -16110,6 +16110,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2943631066099713688}
     m_Modifications:
+    - target: {fileID: 725338605063410085, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,
+        type: 3}
+      propertyPath: SliderFill
+      value: 
+      objectReference: {fileID: 5973885119456245475}
+    - target: {fileID: 725338605063410085, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,
+        type: 3}
+      propertyPath: RedEmission
+      value: 
+      objectReference: {fileID: 2100000, guid: f50e0e76d22307d4a91cce8388bef323, type: 2}
+    - target: {fileID: 725338605063410085, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,
+        type: 3}
+      propertyPath: GreenEmission
+      value: 
+      objectReference: {fileID: 2100000, guid: b6792c775e4a2db41be35dca149451ad, type: 2}
+    - target: {fileID: 725338605063410085, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,
+        type: 3}
+      propertyPath: YellowEmission
+      value: 
+      objectReference: {fileID: 2100000, guid: 24d407e1623c7d04c83de985a691b964, type: 2}
     - target: {fileID: 2268154870278373888, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,
         type: 3}
       propertyPath: m_Pivot.x
@@ -16230,6 +16250,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf, type: 3}
+--- !u!114 &5973885119456245475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4600212034954217540, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 7867995963468693159}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7431035292727684866 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 725338605063410085, guid: c0fb8fcb57b244e4eb6dbc7b287d77cf,

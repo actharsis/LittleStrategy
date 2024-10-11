@@ -24,7 +24,7 @@ public class UnitSelectionBox : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) //TODO: add to InputManager
         {
             _startPosition = Input.mousePosition;
 

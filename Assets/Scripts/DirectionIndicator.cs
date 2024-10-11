@@ -31,16 +31,14 @@ public class DirectionIndicator : MonoBehaviour
 
     private void Update()
     {
-        if (shouldRender)
-        {
-            lineRenderer.positionCount = 2;
-            Vector3 startPosition = new Vector3(transform.position.x, transform.position.y + originOffset, transform.position.z);
-            lineRenderer.SetPosition(0, startPosition);
-            lineRenderer.SetPosition(1, targetPosition);
-        }
+        if (!shouldRender) return;
+        lineRenderer.positionCount = 2;
+        Vector3 startPosition = new Vector3(transform.position.x, transform.position.y + originOffset, transform.position.z);
+        lineRenderer.SetPosition(0, startPosition);
+        lineRenderer.SetPosition(1, targetPosition);
     }
 
-    IEnumerator DrawPathTemporarily()
+    private IEnumerator DrawPathTemporarily()
     {
         yield return new WaitForSeconds(lineDisplayTime);
 

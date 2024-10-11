@@ -50,16 +50,13 @@ public class CursorManager : MonoBehaviour
             Cursor.visible = false;
 
             // Position the marker at the mouse position
-            Vector3 mousePosition = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, new Vector3(0, markerHeight, 0));
-            float rayDistance;
+            var mousePosition = Input.mousePosition;
+            var ray = Camera.main.ScreenPointToRay(mousePosition);
+            var groundPlane = new Plane(Vector3.up, new Vector3(0, markerHeight, 0));
 
-            if (groundPlane.Raycast(ray, out rayDistance))
-            {
-                Vector3 worldPosition = ray.GetPoint(rayDistance);
-                markerInstance.transform.position = worldPosition;
-            }
+            if (!groundPlane.Raycast(ray, out var rayDistance)) return;
+            var worldPosition = ray.GetPoint(rayDistance);
+            markerInstance.transform.position = worldPosition;
         }
         else
         {
@@ -72,35 +69,33 @@ public class CursorManager : MonoBehaviour
 
     public void SetMarkerType(CursorType type)
     {
-        if (type != currentCursor)
+        if (type == currentCursor) return;
+        isMarkerActive = true;
+
+        currentCursor = type;
+
+        switch (type)
         {
-            isMarkerActive = true;
-
-            currentCursor = type;
-
-            switch (type)
-            {
-                case CursorType.Walkable:
-                    markerInstance?.SetActive(false);
-                    markerInstance = walkableCursor;
-                    return;
-                case CursorType.Selectable:
-                    markerInstance?.SetActive(false);
-                    markerInstance = selectableCursor;
-                    return;
-                case CursorType.Attackable:
-                    markerInstance?.SetActive(false);
-                    markerInstance = attackableCursor;
-                    return;
-                case CursorType.UnAvailable:
-                    markerInstance?.SetActive(false);
-                    markerInstance = unAvailableCursor;
-                    return;
-                case CursorType.None:
-                    markerInstance?.SetActive(false);
-                    isMarkerActive = false;
-                    return;
-            }
+            case CursorType.Walkable:
+                markerInstance?.SetActive(false);
+                markerInstance = walkableCursor;
+                return;
+            case CursorType.Selectable:
+                markerInstance?.SetActive(false);
+                markerInstance = selectableCursor;
+                return;
+            case CursorType.Attackable:
+                markerInstance?.SetActive(false);
+                markerInstance = attackableCursor;
+                return;
+            case CursorType.UnAvailable:
+                markerInstance?.SetActive(false);
+                markerInstance = unAvailableCursor;
+                return;
+            case CursorType.None:
+                markerInstance?.SetActive(false);
+                isMarkerActive = false;
+                return;
         }
     }
 }
