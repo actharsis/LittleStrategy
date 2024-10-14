@@ -19,7 +19,6 @@ public class UnitAttackState : StateMachineBehaviour
         _unitAgent = animator.GetComponent<NavMeshAgent>();
         _attackController = animator.GetComponent<AttackController>();
 
-        _attackController.SetAttackMaterial();
         _attackController.MuzzleEffect.gameObject.SetActive(true);
     }
 

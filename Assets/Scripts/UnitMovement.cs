@@ -13,6 +13,8 @@ public class UnitMovement : MonoBehaviour
     public bool IsCommandedToMove;
     private DirectionIndicator _directionIndicator;
 
+    [SerializeField] private InputManager _inputManager;
+
     private void Start()
     {
         _cam = Camera.main;
@@ -22,22 +24,20 @@ public class UnitMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            var ray = _cam.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, Ground))
-            {
-                IsCommandedToMove = true;
-                _agent.SetDestination(hit.point);
-
-                _directionIndicator.DrawLine(hit);
-            }
-        }
-
         if (!_agent.hasPath || _agent.remainingDistance <= _agent.stoppingDistance)
         {
             IsCommandedToMove = false;
         }
+    }
+
+    public void CommandToMove()
+    {
+        var ray = _cam.ScreenPointToRay(Input.mousePosition);
+
+        if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, Ground)) return;
+        IsCommandedToMove = true;
+        _agent.SetDestination(hit.point);
+
+        _directionIndicator.DrawLine(hit);
     }
 }

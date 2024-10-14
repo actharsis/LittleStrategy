@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        buildButton.onClick.AddListener(() => Construct(0));
+        buildButton.onClick.AddListener(() => Construct(0)); //TODO: fix not triggering button
     }
 
     private void Construct(int id)

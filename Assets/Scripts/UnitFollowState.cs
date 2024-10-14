@@ -14,8 +14,6 @@ public class UnitFollowState : StateMachineBehaviour
     {
         _attackController = animator.transform.GetComponent<AttackController>();
         _unitAgent = animator.transform.GetComponent<NavMeshAgent>();
-
-        _attackController.SetFollowMaterial();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

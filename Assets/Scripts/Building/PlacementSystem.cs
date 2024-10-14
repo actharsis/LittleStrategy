@@ -42,7 +42,7 @@ public class PlacementSystem : MonoBehaviour
 
         _buildingState = new PlacementState(id, _grid, _previewSystem, _database, _floorData, _furnitureData, _objectPlacer);
 
-        _inputManager.OnClicked += PlaceStructure;
+        _inputManager.OnLMBDown += PlaceStructure;
         _inputManager.OnExit += StopPlacement;
     }
 
@@ -52,7 +52,7 @@ public class PlacementSystem : MonoBehaviour
 
         _buildingState = new RemovingState(_grid, _previewSystem, _floorData, _furnitureData, _objectPlacer);
 
-        _inputManager.OnClicked += PlaceStructure;
+        _inputManager.OnLMBDown += PlaceStructure;
         _inputManager.OnExit += StopPlacement;
     }
 
@@ -62,7 +62,6 @@ public class PlacementSystem : MonoBehaviour
             Debug.Log("Pointer was over UI - Returned");
             return;
         }
-        // When we click on a cell, we get the cell
         var mousePosition = _inputManager.GetSelectedMapPosition();
         var gridPosition = _grid.WorldToCell(mousePosition);
 
@@ -79,7 +78,6 @@ public class PlacementSystem : MonoBehaviour
             CalculateAndAddBenefit(bf);
         }
 
-        // ---- Stop the placement after every build ---- // 
         StopPlacement();
     }
 
@@ -100,7 +98,7 @@ public class PlacementSystem : MonoBehaviour
        
         _buildingState.EndState();
 
-        _inputManager.OnClicked -= PlaceStructure;
+        _inputManager.OnLMBDown -= PlaceStructure;
         _inputManager.OnExit -= StopPlacement;
 
         _lastDetectedPosition = Vector3Int.zero;
@@ -118,11 +116,9 @@ public class PlacementSystem : MonoBehaviour
         var mousePosition = _inputManager.GetSelectedMapPosition();
         var gridPosition = _grid.WorldToCell(mousePosition);
 
-        if (_lastDetectedPosition != gridPosition)
-        {
-            _buildingState.UpdateState(gridPosition);
-            _lastDetectedPosition = gridPosition;
-        }
+        if (_lastDetectedPosition == gridPosition) return;
+        _buildingState.UpdateState(gridPosition);
+        _lastDetectedPosition = gridPosition;
 
     }
 }

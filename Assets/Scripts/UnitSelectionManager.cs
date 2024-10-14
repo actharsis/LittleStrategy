@@ -10,6 +10,8 @@ public class UnitSelectionManager : MonoBehaviour
 {
     public static UnitSelectionManager Instance { get; set; }
 
+    [SerializeField] private InputManager _inputManager;
+
     public List<GameObject> AllUnitsList = new List<GameObject>();
     public List<GameObject> UnitsSelected = new List<GameObject>();
 
@@ -38,13 +40,15 @@ public class UnitSelectionManager : MonoBehaviour
     private void Start()
     {
         _cam = Camera.main;
+
+        _inputManager.OnLMBDown += HandleClickSelection;
+        _inputManager.OnRMBDown += HandleMoveCommand;
+        _inputManager.OnRMBDown += HandleAttackCommand;
     }
 
     private void Update()
     {
-        HandleClickSelection();
-        HandleMoveCommand();
-        HandleAttackCommand();
+        HandleCursorHoverOnEnemy();
 
         CursorSelector();
     }
@@ -75,7 +79,6 @@ public class UnitSelectionManager : MonoBehaviour
 
     private void HandleClickSelection()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
         var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out var hit, Mathf.Infinity, Clickable))
@@ -91,7 +94,7 @@ public class UnitSelectionManager : MonoBehaviour
         }
         else
         {
-            if (!Input.GetKey(KeyCode.LeftShift)) // is it really needed?
+            if (!Input.GetKey(KeyCode.LeftShift))
             {
                 DeselectAll();
             }
@@ -100,14 +103,27 @@ public class UnitSelectionManager : MonoBehaviour
 
     private void HandleMoveCommand()
     {
-        if (!Input.GetMouseButtonDown(1) || UnitsSelected.Count <= 0) return;
+        if (UnitsSelected.Count <= 0) return;
         var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
         if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, Ground)) return;
+        foreach (var unit in UnitsSelected)
+        {
+            unit.GetComponent<UnitMovement>().CommandToMove();
+        }
         GroundMarker.transform.position = hit.point;
 
         GroundMarker.SetActive(false);
         GroundMarker.SetActive(true);
+    }
+
+    private void HandleCursorHoverOnEnemy()
+    {
+        if (UnitsSelected.Count <= 0 || !IsOffensiveUnitIn(UnitsSelected)) return;
+        {
+            var ray = _cam.ScreenPointToRay(Input.mousePosition);
+            AttackCursorVisible = Physics.Raycast(ray, out var hit, Mathf.Infinity, Attackable);
+        }
     }
 
     private void HandleAttackCommand()
@@ -116,21 +132,12 @@ public class UnitSelectionManager : MonoBehaviour
         {
             var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, Attackable))
-            {
-                AttackCursorVisible = true;
+            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, Attackable)) return;
+            var target = hit.transform;
 
-                if (!Input.GetMouseButtonDown(1)) return;
-                var target = hit.transform;
-
-                foreach (var unit in UnitsSelected.Where(unit => unit.GetComponent<AttackController>()))
-                {
-                    unit.GetComponent<AttackController>().TargetToAttack = target;
-                }
-            }
-            else
+            foreach (var unit in UnitsSelected.Where(unit => unit.GetComponent<AttackController>()))
             {
-                AttackCursorVisible = false;
+                unit.GetComponent<AttackController>().TargetToAttack = target;
             }
         }
     }
