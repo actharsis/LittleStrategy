@@ -10,8 +10,7 @@ public class PreviewSystem : MonoBehaviour
 
     private GameObject previewObject;
 
-    [SerializeField] 
-    private Material previewMaterialPrefab;
+    [SerializeField] private Material previewMaterialPrefab;
     private Material previewMaterialInstance;
 
 
@@ -34,14 +33,14 @@ public class PreviewSystem : MonoBehaviour
     {
         // Change the materials of the prefab (and its children) to semi-transparent
 
-        Renderer[] renderers = previewObject.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in renderers)
+        var renderers = previewObject.GetComponentsInChildren<Renderer>();
+        foreach (var rend in renderers)
         {
-            Material[] materials = renderer.materials;
-            for (int i = 0; i < materials.Length; i++)
+            var materials = rend.materials;
+            for (var i = 0; i < materials.Length; i++)
             {
                 // Getting the current material color
-                Color color = materials[i].color;
+                var color = materials[i].color;
      
                 // changing its alpha
                 color.a = 0.5f;
@@ -53,7 +52,7 @@ public class PreviewSystem : MonoBehaviour
                 materials[i] = previewMaterialInstance;
             }
 
-            renderer.materials = materials;
+            rend.materials = materials;
         }
     }
 
@@ -78,14 +77,14 @@ public class PreviewSystem : MonoBehaviour
 
     private void ApplyFeedbackToPreview(bool validity)
     {
-        Color c = validity ? Color.white : Color.red;
+        var c = validity ? Color.green : Color.red;
         c.a = 0.5f;
         previewMaterialInstance.color = c;
     }
 
-    private void ApplyFeedbackToCursor(bool validity)
+    private static void ApplyFeedbackToCursor(bool validity)
     {
-        Color c = validity ? Color.white : Color.red;
+        var c = validity ? Color.green : Color.red;
         c.a = 1f;
      
     }

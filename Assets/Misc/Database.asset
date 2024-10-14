@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Database
   m_EditorClassIdentifier: 
   objectsData:
-  - <Name>k__BackingField: House
+  - <Name>k__BackingField: Command Center
     <ID>k__BackingField: 0
     description: 
-    <Size>k__BackingField: {x: 1, y: 1}
+    <Size>k__BackingField: {x: 3, y: 4}
     <Prefab>k__BackingField: {fileID: 2318559926197995587, guid: f509f0f2a9ea2e64a98d2497df900f98,
       type: 3}
     <requirements>k__BackingField: []
