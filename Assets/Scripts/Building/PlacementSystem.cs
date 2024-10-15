@@ -1,3 +1,4 @@
+//TODO: fix preview colliding with other object
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,12 +68,9 @@ public class PlacementSystem : MonoBehaviour
 
         _buildingState.OnAction(gridPosition);
 
-
-        // ---- Using the ID remove used resources from resource manager ---- // 
         var ob = _database.GetObjectByID(_selectedId);
        // ResourceManager.Instance.RemoveResourcesBasedOnRequirements(ob, database);
 
-        // ---- Add Buildable Benefits ---- // 
         foreach (var bf in ob.benefits)
         {
             CalculateAndAddBenefit(bf);
@@ -108,8 +106,6 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        // We return because we did not selected an item to place (not in placement mode)
-        // So there is no need to show cell indicator
         if (_buildingState == null)
             return;
       
