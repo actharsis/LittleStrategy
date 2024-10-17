@@ -7,7 +7,7 @@ public class RtsCameraController : MonoBehaviour
 
     // item to follow
     // public void OnMouseDown(){
-    //   CameraController.instance.followTransform = transform;
+    //   CameraController.Instance.followTransform = transform;
     // }
 
     [Header("General")]

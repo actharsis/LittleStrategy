@@ -10,7 +10,7 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private Grid _grid;
 
-    [SerializeField] private ObjectsDatabseSO _database;
+    [SerializeField] private ObjectsDatabaseSO _database;
 
     [SerializeField] private GridData _floorData, _furnitureData;
 

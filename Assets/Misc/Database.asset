@@ -19,5 +19,7 @@ MonoBehaviour:
     <Size>k__BackingField: {x: 3, y: 4}
     <Prefab>k__BackingField: {fileID: 2318559926197995587, guid: f509f0f2a9ea2e64a98d2497df900f98,
       type: 3}
-    <requirements>k__BackingField: []
+    <requirements>k__BackingField:
+    - resource: 0
+      amount: 250
     <benefits>k__BackingField: []

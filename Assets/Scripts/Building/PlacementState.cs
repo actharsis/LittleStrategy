@@ -8,7 +8,7 @@ public class PlacementState : IBuildingState
     private readonly int _id;
     private readonly Grid _grid;
     private readonly PreviewSystem _previewSystem;
-    private readonly ObjectsDatabseSO _database;
+    private readonly ObjectsDatabaseSO _database;
     private readonly GridData _floorData;
     private readonly GridData _furnitureData;
     private readonly ObjectPlacer _objectPlacer;
@@ -16,7 +16,7 @@ public class PlacementState : IBuildingState
     public PlacementState(int iD,
                           Grid grid,
                           PreviewSystem previewSystem,
-                          ObjectsDatabseSO database,
+                          ObjectsDatabaseSO database,
                           GridData floorData,
                           GridData furnitureData,
                           ObjectPlacer objectPlacer)
@@ -55,6 +55,8 @@ public class PlacementState : IBuildingState
         }
 
         var index = _objectPlacer.PlaceObject(_database.objectsData[_selectedObjectIndex].Prefab, _grid.CellToWorld(gridPosition));
+
+        ResourceManager.Instance.DecreaseResources(_database.objectsData[_selectedObjectIndex]);
 
         // If this id is a floor id, then its a floor data, else its a furniture data
         var selectedData = GetAllFloorIDs().Contains(_database.objectsData[_selectedObjectIndex].ID) ? _floorData : _furnitureData;

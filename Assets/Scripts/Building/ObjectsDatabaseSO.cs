@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ObjectsDatabseSO : ScriptableObject
+public class ObjectsDatabaseSO : ScriptableObject
 {
     public List<ObjectData> objectsData;
 
 
     public ObjectData GetObjectByID(int id)
     {
-        foreach (ObjectData obj in objectsData)
+        foreach (var obj in objectsData.Where(obj => obj.ID == id))
         {
-            if (obj.ID == id)
-            {
-                return obj;
-            }
+            return obj;
         }
 
         return new(); // This cannot happen
@@ -54,7 +52,7 @@ public class ObjectData
 [System.Serializable]
 public class BuildRequirement
 {
-    public string resource;
+    public ResourceManager.ResourceType resource;
     public int amount;
 }
 
