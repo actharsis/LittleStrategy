@@ -22,9 +22,12 @@ public class ResourceManager : MonoBehaviour
     }
 
     public event Action OnResourceChanged;
+    public event Action OnBuildingsChanged;
 
     private int _credits = 500; //test value
     public TextMeshProUGUI creditsUI;
+
+    public List<BuildingType> ExistingBuildings;
 
     public enum ResourceType
     {
@@ -34,6 +37,20 @@ public class ResourceManager : MonoBehaviour
     private void Start()
     {
         UpdateUI();
+    }
+
+    public void UpdateBuildingChanged(BuildingType buildingType, bool isNew)
+    {
+        if (isNew)
+        {
+            ExistingBuildings.Add(buildingType);
+        }
+        else
+        {
+            ExistingBuildings.Remove(buildingType);
+        }
+
+        OnBuildingsChanged?.Invoke();
     }
 
     private void UpdateUI()
@@ -86,7 +103,7 @@ public class ResourceManager : MonoBehaviour
 
     internal void DecreaseResources(ObjectData objectData)
     {
-        foreach (var req in objectData.requirements)
+        foreach (var req in objectData.ResourceRequirements)
         {
             DecreaseResource(req.resource, req.amount);
         }

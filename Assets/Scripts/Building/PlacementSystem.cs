@@ -71,7 +71,7 @@ public class PlacementSystem : MonoBehaviour
         var ob = _database.GetObjectByID(_selectedId);
        // ResourceManager.Instance.RemoveResourcesBasedOnRequirements(ob, database);
 
-        foreach (var bf in ob.benefits)
+        foreach (var bf in ob.Benefits)
         {
             CalculateAndAddBenefit(bf);
         }

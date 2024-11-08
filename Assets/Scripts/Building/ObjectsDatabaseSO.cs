@@ -21,6 +21,13 @@ public class ObjectsDatabaseSO : ScriptableObject
 
 }
 
+public enum BuildingType
+{
+    None,
+    CommandCenter,
+    Barrack
+}
+
 [System.Serializable]
 public class ObjectData
 {
@@ -31,8 +38,11 @@ public class ObjectData
     public int ID { get; private set; }
 
     [field: SerializeField]
+    public BuildingType BuildingType { get; private set; }
+
+    [field: SerializeField]
     [TextArea(3, 10)]
-    public string description;
+    public string Description;
 
     [field: SerializeField]
     public Vector2Int Size { get; private set; } = Vector2Int.one;
@@ -41,16 +51,17 @@ public class ObjectData
     public GameObject Prefab { get; private set; }
 
     [field: SerializeField]
-    public List<BuildRequirement> requirements { get; private set; }
+    public List<ResourceRequirement> ResourceRequirements { get; private set; }
 
     [field: SerializeField]
-    public List<BuildBenefits> benefits { get; private set; }
+    public List<BuildingType> BuildRequirements { get; private set; }
 
-  
+    [field: SerializeField]
+    public List<BuildBenefits> Benefits { get; private set; }
 }
 
 [System.Serializable]
-public class BuildRequirement
+public class ResourceRequirement
 {
     public ResourceManager.ResourceType resource;
     public int amount;
