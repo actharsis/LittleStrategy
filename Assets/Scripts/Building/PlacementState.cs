@@ -88,7 +88,6 @@ public class PlacementState : IBuildingState
 
     public void UpdateState(Vector3Int gridPosition)
     {
-        // Show the player if he can place the item
         var placementValidity = CheckPlacementValidity(gridPosition, _selectedObjectIndex);
 
         _previewSystem.UpdatePosition(_grid.CellToWorld(gridPosition), placementValidity);

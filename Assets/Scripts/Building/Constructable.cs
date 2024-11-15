@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public class Constructable : MonoBehaviour
 {
-
-    NavMeshObstacle obstacle;
+    private NavMeshObstacle _obstacle; //BUG: building mesh doesn't correspond real object position
 
     public void ConstructableWasPlaced()
     {
@@ -15,7 +14,7 @@ public class Constructable : MonoBehaviour
 
     private void ActivateObstacle()
     {
-        obstacle = GetComponentInChildren<NavMeshObstacle>();
-        obstacle.enabled = true;
+        _obstacle = GetComponentInChildren<NavMeshObstacle>();
+        _obstacle.enabled = true;
     }
 }

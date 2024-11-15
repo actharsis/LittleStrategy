@@ -11,10 +11,10 @@ public class ObjectPlacer : MonoBehaviour
     public int PlaceObject(GameObject prefab, Vector3 position)
     {
         // We instantiate the prefab into the cell
-        GameObject newObject = Instantiate(prefab);
+        var newObject = Instantiate(prefab);
         newObject.transform.position = position;
 
-        // Enable different things for example activate the obstical
+        // Enable different things for example activate the obstacle
         newObject.GetComponent<Constructable>().ConstructableWasPlaced();
 
         // Storing the positions that are now occupied
@@ -27,7 +27,7 @@ public class ObjectPlacer : MonoBehaviour
     {
         if(placedGameObjects.Count <= gameObjectIndex 
             || placedGameObjects[gameObjectIndex] == null)
-             return;
+            return;
         Destroy(placedGameObjects[gameObjectIndex]);
         placedGameObjects[gameObjectIndex] = null;
     }

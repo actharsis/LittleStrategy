@@ -8,7 +8,7 @@ public class PreviewSystem : MonoBehaviour
     [SerializeField] 
     private float previewYOffset = 0.06f;
 
-    private GameObject previewObject;
+    private GameObject _previewObject;
 
     [SerializeField] private Material previewMaterialPrefab;
     private Material previewMaterialInstance;
@@ -20,8 +20,8 @@ public class PreviewSystem : MonoBehaviour
     }
     public void StartShowingPlacementPreview(GameObject prefab, Vector2Int size)
     {
-        previewObject = Instantiate(prefab);
-        PreparePreview(previewObject);
+        _previewObject = Instantiate(prefab);
+        PreparePreview(_previewObject);
     }
 
     internal void StartShowingRemovePreview()
@@ -58,15 +58,15 @@ public class PreviewSystem : MonoBehaviour
 
     public void StopShowingPreview()
     {
-        if (previewObject != null)
+        if (_previewObject != null)
         {
-            Destroy(previewObject);
+            Destroy(_previewObject);
         }
     }
 
     public void UpdatePosition(Vector3 position, bool validity)
     {
-        if (previewObject != null)
+        if (_previewObject != null)
         {
             MovePreview(position);
             ApplyFeedbackToPreview(validity);
@@ -91,7 +91,7 @@ public class PreviewSystem : MonoBehaviour
 
     private void MovePreview(Vector3 position)
     {
-        previewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
+        _previewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
     }
 
 }

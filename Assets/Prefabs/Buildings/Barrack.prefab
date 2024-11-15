@@ -58,9 +58,9 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.485, y: 0.59, z: 1.05}
   m_MoveThreshold: 0.1
-  m_Carve: 1
+  m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: -0.09, y: 0.58, z: -0.06}
+  m_Center: {x: 0.09, y: 0.58, z: -0.06}
   m_TimeToStationary: 0.5
 --- !u!1001 &8666468934321230197
 PrefabInstance:
